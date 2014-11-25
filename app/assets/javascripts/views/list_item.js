@@ -2,7 +2,8 @@ TrelloClone.Views.ListItem = Backbone.CompositeView.extend({
 	template: JST["boards/list_item"],
 	tagName: "div",
 
-	initialize: function(){
+	initialize: function(options){
+		this.board = options.board;
 		this.cards = this.model.cards();
 		this.listenTo(this.cards, "add", this.addCard);
 		this.listenTo(this.cards, "remove", this.removeCard);
@@ -12,14 +13,45 @@ TrelloClone.Views.ListItem = Backbone.CompositeView.extend({
 	},
 
 	events: {
-		// "sortstart .lists-list": "beginSortList",
-		"sortstop .cards-list": "endSortList"
+		// "sortstart .cards-list": "beginSortCard",
+		"sortstop .cards-list": "endSortCard",
+		"sortreceive .cards-list": "endReceiveCard"
 	},
 
+	assignOrd: function(){
+		_(this.subviews('.cards-list')).each(function(subview){
+			var ord = subview.$el.index();
+			subview.model.set({ord: ord});
+			subview.model.save();
+		})
+	},
+
+	endSortCard: function(event, ui){
+		this.assignOrd();
+	},
+
+	endReceiveCard: function(event, ui){
+		var $target = $(event.toElement);
+		var senderListId = ui.sender.data("list-id");
+		var senderList = this.board.lists().get(senderListId);
+		var card = senderList.cards().get($target.data("id"))
+		this.model.cards().add(card);
+		card.set("list_id", this.model.id);
+		card.save();
+		this.endSortCard();
+	},
+
+	attributes: function () {
+		return {
+			"data-list-id": this.model.id
+		};
+	},
 
 	addCard: function(card){
 		var new_card = new TrelloClone.Views.CardItem({model: card});
-		new_card.$el.data("list-id", card.get("list_id"));
+
+		new_card.$el.attr("data-list-id", card.get("list_id"));
+		new_card.$el.attr("data-id", card.get("id"));
 		this.addSubview(".cards-list", new_card);
 	},
 
@@ -27,7 +59,7 @@ TrelloClone.Views.ListItem = Backbone.CompositeView.extend({
 		var remove_card = _.find(this.subviews(".cards-list"), function(subview){
 			return subview.model === card;
 		});
-			this.removeSubview(".cards-list", remove_card)
+		this.removeSubview(".cards-list", remove_card)
 	},
 
 	addForm: function(){
