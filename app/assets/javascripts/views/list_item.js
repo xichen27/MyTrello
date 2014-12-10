@@ -3,10 +3,12 @@ TrelloClone.Views.ListItem = Backbone.CompositeView.extend({
 	tagName: "div",
 
 	initialize: function(options){
+
 		this.board = options.board;
 		this.cards = this.model.cards();
 		this.listenTo(this.cards, "add", this.addCard);
 		this.listenTo(this.cards, "remove", this.removeCard);
+
 		this.cards.each(function(card){
 			this.addCard(card);
 		}.bind(this))
@@ -43,10 +45,9 @@ TrelloClone.Views.ListItem = Backbone.CompositeView.extend({
 		var senderListId = ui.sender.data("list-id");
 		var senderList = this.board.lists().get(senderListId);
 		var card = senderList.cards().get($target.data("id"))
-		this.model.cards().add(card);
 		card.set("list_id", this.model.id);
 		card.save();
-		this.endSortCard();
+		this.assignOrd();
 	},
 
 	attributes: function () {

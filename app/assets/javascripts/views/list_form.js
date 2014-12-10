@@ -20,7 +20,7 @@ TrelloClone.Views.ListForm = Backbone.View.extend({
 		this.collection.create({
 			title: data.title,
 			board_id: this.model.id
-		});
+		}, {wait: true});
 		this.render();
 	}
 
