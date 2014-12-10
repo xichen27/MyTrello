@@ -13,9 +13,14 @@ TrelloClone.Views.ListItem = Backbone.CompositeView.extend({
 	},
 
 	events: {
-		// "sortstart .cards-list": "beginSortCard",
+		"sortstart .cards-list": "beginSortCard",
 		"sortstop .cards-list": "endSortCard",
 		"sortreceive .cards-list": "endReceiveCard"
+	},
+
+	beginSortCard: function(event){
+		var $target = $(event.toElement);
+		$target.addClass("dragged")
 	},
 
 	assignOrd: function(){
@@ -26,12 +31,15 @@ TrelloClone.Views.ListItem = Backbone.CompositeView.extend({
 		})
 	},
 
-	endSortCard: function(event, ui){
+	endSortCard: function(event){
+		var $target = $(event.toElement);
+		$target.removeClass("dragged");
 		this.assignOrd();
 	},
 
 	endReceiveCard: function(event, ui){
 		var $target = $(event.toElement);
+		$target.removeClass("dragged");
 		var senderListId = ui.sender.data("list-id");
 		var senderList = this.board.lists().get(senderListId);
 		var card = senderList.cards().get($target.data("id"))

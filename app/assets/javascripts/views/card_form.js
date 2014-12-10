@@ -20,14 +20,14 @@ TrelloClone.Views.CardForm = Backbone.View.extend({
 
 	createCard: function(event){
 		event.preventDefault();
-		var $target = $(event.currentTarget)
-		var data = $target.serializeJSON();
+		// var $target = $(event.currentTarget)
+		// var data = $target.serializeJSON();
 		var that = this;
 		var new_card = new TrelloClone.Models.Card();
 		this.collection.create({
-			title: data.title,
+			title: this.$('textarea').val(),
 			list_id: that.model.id
-		});
+		}, {wait: true});
 		this.render();
 		this.$el.find("a.add-card").removeClass("hidden");
 		this.$el.find("form.card-form").addClass("hidden");

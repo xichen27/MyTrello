@@ -1,4 +1,9 @@
 
-<a href="#boards/<%=board.id%>"><%=board.get("title")%></a>
-<button data-id="<%=board.id%>" class="delete-board">X</button>
+<a href="#boards/<%=board.id%>">        
+	<span class='shadow'></span>
+  <span class='details'>        
+    <%= board.escape("title") %>
+  </span>
+</a>
+<button data-id="<%=board.id%>" class="delete-board btn btn-primary">delete</button>
 
