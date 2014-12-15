@@ -16,6 +16,16 @@
 @import "bootstrap";
 @import "font-awesome";
 
+.sign-form{
+  margin: 0 auto;
+  text-align: center;
+  width: 500px;
+}
+
+body{
+  background-color: #d3d3d3;
+}
+
 div.list-item{
 	float: left;
 	width: 20%;
@@ -109,7 +119,7 @@ ul {
 
 .new-list{
 	display: block;
-	margin: 2px;
+	margin: 2px
 }
 
 .delete-card{

@@ -1,12 +1,16 @@
-<h1>Sign In</h1>
+<div class="sign-form">	
+	<h1>WELCOME BACK</h1>
 
-<form action="/session" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <label>Email<br>
-    <input name="user[email]" type="text"><br>
-  </label><br>
-  <label>Password<br>
-    <input name="user[password]" type="password"><br>
-  </label><br>
-  <input type="submit" value="Submit" class="btn btn-primary"><br>
-</form>
+	<form action="/session" method="post">
+	  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	  <label>Email<br>
+	    <input id="user-name" name="user[email]" type="text"><br>
+	  </label><br>
+	  <label>Password<br>
+	    <input id="pass-word" name="user[password]" type="password"><br>
+	  </label><br>
+	  <input id="sign-in" type="submit" value="Sign In" class="btn btn-primary"><br>
+	</form>
+	<br>
+	<button type="button" id="guest-login" class="btn btn-primary">Guest Login</button>
+</div>

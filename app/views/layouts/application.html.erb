@@ -9,5 +9,13 @@
 <body>
   <%= render partial: "layouts/header" %>
   <%= yield %>
+  <script>
+  	$("button#guest-login").on("click", function(){
+			$('#user-name').val('guest@guest.com');
+			$('#pass-word').val('password');
+			$('#sign-in').click();
+  	})
+  </script>
 </body>
 </html>
+
